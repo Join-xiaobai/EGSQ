@@ -1,0 +1,38 @@
+# EGSQ Base Configuration
+
+project:
+  name: "EGSQ"
+  version: "0.1.0"
+  target_journal: "Information_Sciences"
+  seed: 42
+
+training:
+  epochs: 100
+  batch_size: 16
+  learning_rate: 0.0003
+  weight_decay: 0.0001
+  optimizer: "AdamW"
+  lr_scheduler: "CosineAnnealingLR"
+  min_lr: 0.000001
+  gradient_clip_norm: 1.0
+
+loss_weights:
+  landmark: 1.0
+  structure: 0.5
+  measurement: 1.0
+  geometry: 0.5
+  equivariance: 0.2
+  risk: 0.3
+
+selective_risk_control:
+  alpha_target: 0.05       # Target error risk level (e.g. 5%)
+  calibration_split: 0.2   # Fraction of val data allocated to conformal calibration
+  method: "split_conformal"
+  min_coverage: 0.50
+
+infrastructure:
+  device: "cuda"
+  num_workers: 4
+  mixed_precision: true
+  checkpoint_dir: "checkpoints"
+  report_dir: "reports"

@@ -1,0 +1,30 @@
+# Fetal Ultrasound Biometry Task Configuration
+
+task:
+  task_name: "fetal_biometry"
+  modality: "ultrasound"
+  image_size: [256, 256]
+  num_landmarks: 8
+
+graph_definition:
+  nodes:
+    - {id: 0, name: "bpd_caliper_1", organ: "fetal_head"}
+    - {id: 1, name: "bpd_caliper_2", organ: "fetal_head"}
+    - {id: 2, name: "ofd_caliper_1", organ: "fetal_head"}
+    - {id: 3, name: "ofd_caliper_2", organ: "fetal_head"}
+    - {id: 4, name: "fl_endpoint_1", organ: "femur"}
+    - {id: 5, name: "fl_endpoint_2", organ: "femur"}
+    - {id: 6, name: "ac_center", organ: "abdomen"}
+    - {id: 7, name: "ac_radius_ref", organ: "abdomen"}
+
+  edges:
+    - {type: "DISTANCE", endpoints: [0, 1], name: "BPD", unit: "mm", max_tolerance_error: 2.5}
+    - {type: "DISTANCE", endpoints: [2, 3], name: "OFD", unit: "mm", max_tolerance_error: 3.0}
+    - {type: "DISTANCE", endpoints: [4, 5], name: "FL", unit: "mm", max_tolerance_error: 2.0}
+
+data:
+  dataset_root: "data/fetal_biometry"
+  train_split: 0.70
+  val_split: 0.15
+  test_split: 0.15
+  group_by_patient: true
